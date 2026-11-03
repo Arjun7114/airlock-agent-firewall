@@ -20,12 +20,19 @@ def get_client() -> OpenAI:
     return _client
 
 
-def complete(messages, model=None, temperature=None, **kwargs) -> str:
-    """Send chat messages, return the assistant's text reply."""
+def chat(messages, tools=None, model=None, temperature=None, **kwargs):
+    """Low-level chat call. Returns the raw assistant message (with tool_calls)."""
     client = get_client()
     model = model or config.require("AIRLOCK_MODEL", config.MODEL)
     params = {"model": model, "messages": messages, **kwargs}
+    if tools is not None:
+        params["tools"] = tools
     if temperature is not None:
         params["temperature"] = temperature
     response = client.chat.completions.create(**params)
-    return response.choices[0].message.content
+    return response.choices[0].message
+
+
+def complete(messages, model=None, temperature=None, **kwargs) -> str:
+    """Convenience wrapper that returns just the assistant's text reply."""
+    return chat(messages, model=model, temperature=temperature, **kwargs).content
