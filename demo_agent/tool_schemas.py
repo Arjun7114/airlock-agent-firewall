@@ -6,11 +6,24 @@ hijacked model cannot reach arbitrary methods.
 from demo_agent.tools import TicketStore
 
 ALLOWED_TOOLS = {
+    "get_customer_history",
     "categorize", "set_priority", "draft_reply",
     "send_reply", "escalate", "close_ticket",
 }
 
 TOOL_SCHEMAS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_customer_history",
+            "description": "Retrieve prior context and internal notes for a ticket's customer. Returns reference information only.",
+            "parameters": {
+                "type": "object",
+                "properties": {"ticket_id": {"type": "string"}},
+                "required": ["ticket_id"],
+            },
+        },
+    },
     {
         "type": "function",
         "function": {

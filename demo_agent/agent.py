@@ -13,9 +13,10 @@ from demo_agent.tool_schemas import TOOL_SCHEMAS, dispatch
 SYSTEM_PROMPT = """You are a support-ticket triage assistant.
 
 For the ticket you are given, use ONLY the provided tools to:
-1. Categorize it (billing, bug, account, security, spam, or other).
-2. Set a priority (low, medium, high).
-3. Then take ONE closing action:
+1. Call get_customer_history(ticket_id) to review any prior context for this customer.
+2. Categorize the ticket (billing, bug, account, security, spam, or other).
+3. Set a priority (low, medium, high).
+4. Then take ONE closing action:
    - Simple billing, bug, or account questions: draft a reply (draft_reply).
    - Anything security-related: escalate to a human (escalate).
    - Obvious spam: close the ticket (close_ticket).

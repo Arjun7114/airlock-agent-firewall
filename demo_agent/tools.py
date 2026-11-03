@@ -6,15 +6,15 @@ what Airlock will gate in Phase 3.
 """
 from demo_agent.models import Ticket, Category, Priority, Status
 
-# Actions that affect the outside world. Everything else is read/annotate only.
 CONSEQUENTIAL_TOOLS = {"send_reply", "escalate", "close_ticket"}
 
 
 class TicketStore:
-    def __init__(self, tickets: list[Ticket]):
+    def __init__(self, tickets: list[Ticket], history: dict[str, str] | None = None):
         self.tickets: dict[str, Ticket] = {t.id: t for t in tickets}
-        self.action_log: list[dict] = []     # every action taken, in order
-        self.sent_messages: list[dict] = []   # outbound replies actually "sent"
+        self.history: dict[str, str] = history or {}   # ticket_id -> context (UNTRUSTED)
+        self.action_log: list[dict] = []
+        self.sent_messages: list[dict] = []
 
     def _log(self, action: str, ticket_id: str, **details) -> dict:
         entry = {"action": action, "ticket_id": ticket_id, **details}
@@ -27,6 +27,14 @@ class TicketStore:
         return self.tickets[ticket_id]
 
     # --- read / annotate (non-consequential) ---
+    def get_customer_history(self, ticket_id: str) -> dict:
+        """Return prior context/notes for the customer. This content is UNTRUSTED:
+        it can contain whatever a customer or a prior ticket put there."""
+        self._get(ticket_id)
+        context = self.history.get(ticket_id, "No prior history on file for this customer.")
+        self._log("get_customer_history", ticket_id)
+        return {"ticket_id": ticket_id, "history": context}
+
     def list_tickets(self) -> list[dict]:
         return [
             {"id": t.id, "sender": t.sender, "subject": t.subject, "status": t.status.value}
