@@ -54,14 +54,14 @@ def _format_ticket(ticket: Ticket) -> str:
 
 
 def triage_ticket(store: TicketStore, ticket: Ticket, system_prompt: str = SYSTEM_PROMPT,
-                  max_steps: int = 6, verbose: bool = True) -> str:
+                  profile=None, max_steps: int = 6, verbose: bool = True) -> str:
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": _format_ticket(ticket)},
     ]
 
     for _ in range(max_steps):
-        msg = llm_client.chat(messages, tools=TOOL_SCHEMAS)
+            msg = llm_client.chat(messages, tools=TOOL_SCHEMAS, profile=profile)
 
         assistant_msg = {"role": "assistant", "content": msg.content}
         if msg.tool_calls:
