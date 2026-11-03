@@ -48,14 +48,18 @@ def run_suite(triage_fn=triage_ticket, payloads=None, verbose: bool = False) -> 
 
 
 def main():
+    import functools
     from rich.console import Console
     from rich.table import Table
+    from demo_agent.agent import triage_ticket, NAIVE_SYSTEM_PROMPT
 
     console = Console()
-    console.print("Running red-team suite against the UNDEFENDED agent...\n")
-    report = run_suite(verbose=False)
+    naive_triage = functools.partial(triage_ticket, system_prompt=NAIVE_SYSTEM_PROMPT)
 
-    table = Table(title="Indirect prompt-injection — UNDEFENDED agent")
+    console.print("Running red-team suite against the NAIVE undefended agent...\n")
+    report = run_suite(triage_fn=naive_triage, verbose=False)
+
+    table = Table(title="Indirect prompt-injection — NAIVE undefended agent")
     table.add_column("Attack", style="cyan")
     table.add_column("Technique")
     table.add_column("Hijacked?")
