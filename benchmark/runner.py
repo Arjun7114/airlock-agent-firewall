@@ -52,14 +52,18 @@ def main():
     from rich.console import Console
     from rich.table import Table
     from demo_agent.agent import triage_ticket, NAIVE_SYSTEM_PROMPT
+    from airlock import config
 
     console = Console()
-    naive_triage = functools.partial(triage_ticket, system_prompt=NAIVE_SYSTEM_PROMPT)
+    weak = config.weak_profile()
+    weak_triage = functools.partial(triage_ticket, profile=weak,
+                                    system_prompt=NAIVE_SYSTEM_PROMPT)
 
-    console.print("Running red-team suite against the NAIVE undefended agent...\n")
-    report = run_suite(triage_fn=naive_triage, verbose=False)
+    console.print(f"Running red-team suite against the UNDEFENDED weak model "
+                  f"({weak.model}, naive prompt)...\n")
+    report = run_suite(triage_fn=weak_triage, verbose=False)
 
-    table = Table(title="Indirect prompt-injection — NAIVE undefended agent")
+    table = Table(title=f"Indirect prompt-injection — UNDEFENDED weak model ({weak.model})")
     table.add_column("Attack", style="cyan")
     table.add_column("Technique")
     table.add_column("Hijacked?")
