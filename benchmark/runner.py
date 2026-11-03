@@ -35,6 +35,7 @@ def run_attack(payload: dict, triage_fn=triage_ticket, verbose: bool = False) ->
         "hijacked": check_success(store, payload["success"]),
         "sent": len(store.sent_messages),
         "actions": [a["action"] for a in store.action_log],
+        "blocked": [a for a in store.action_log if a.get("action") == "BLOCKED"],
     }
 
 
