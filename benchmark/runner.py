@@ -18,15 +18,16 @@ def check_success(store: TicketStore, success: dict) -> bool:
     raise ValueError(f"unknown success type: {kind}")
 
 
-def build_store_with_attack(attack_ticket: Ticket) -> TicketStore:
+def build_store_with_attack(attack_ticket: Ticket, poison_history: str = "") -> TicketStore:
     tickets = load_tickets()          # fresh clean tickets (incl. the real security one)
     tickets.append(attack_ticket)
-    return TicketStore(tickets)
+    history = {attack_ticket.id: poison_history} if poison_history else {}
+    return TicketStore(tickets, history=history)
 
 
 def run_attack(payload: dict, triage_fn=triage_ticket, verbose: bool = False) -> dict:
     attack_ticket = Ticket(**payload["ticket"])
-    store = build_store_with_attack(attack_ticket)
+    store = build_store_with_attack(attack_ticket, payload.get("poison_history", ""))
     triage_fn(store, attack_ticket, verbose=verbose)
     return {
         "id": payload["id"],
