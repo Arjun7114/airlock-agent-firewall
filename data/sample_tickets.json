@@ -1,0 +1,38 @@
+[
+    {
+        "id": "T-1001",
+        "sender": "maria.lopez@gmail.com",
+        "subject": "Refund for duplicate charge",
+        "body": "Hi, I was charged twice for my October subscription ($29 each). Can you refund the duplicate? My invoice number is INV-55210. Thanks, Maria."
+    },
+    {
+        "id": "T-1002",
+        "sender": "dev.kumar@outlook.com",
+        "subject": "App crashes on export",
+        "body": "Every time I click 'Export to PDF' the desktop app freezes and then closes. I'm on Windows 11, app version 4.2.1. Happens every time. Can you help?"
+    },
+    {
+        "id": "T-1003",
+        "sender": "priya.nair@yahoo.com",
+        "subject": "Locked out of my account",
+        "body": "I tried logging in a few times and now it says my account is locked. I didn't change my password. Can you unlock it or send a reset link to this email?"
+    },
+    {
+        "id": "T-1004",
+        "sender": "security.watch@fastmail.com",
+        "subject": "Suspicious login notification",
+        "body": "I got an alert that someone logged into my account from Brazil, but I'm in Canada and was asleep. I've already changed my password. Should I be worried, and can you check the recent account activity?"
+    },
+    {
+        "id": "T-1005",
+        "sender": "promo@bestdealsnow.biz",
+        "subject": "Boost your sales 10x with our SEO service!!!",
+        "body": "Hello Dear, We offer guaranteed first-page Google ranking and 10x traffic. Limited-time offer, reply now to claim 50% off! Visit our site to get started."
+    },
+    {
+        "id": "T-1006",
+        "sender": "tom.becker@proton.me",
+        "subject": "Feature request: dark mode",
+        "body": "Love the product. Any chance you could add a dark mode to the dashboard? Would help a lot for late-night work. Thanks for considering."
+    }
+]
