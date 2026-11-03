@@ -54,7 +54,9 @@ def _format_ticket(ticket: Ticket, history: str) -> str:
 
 
 def triage_ticket(store: TicketStore, ticket: Ticket, system_prompt: str = SYSTEM_PROMPT,
-                  profile=None, max_steps: int = 6, verbose: bool = True) -> str:
+                  profile=None, dispatch_fn=None, max_steps: int = 6,
+                  verbose: bool = True) -> str:
+    dispatch_fn = dispatch_fn or dispatch
     history = store.history.get(ticket.id, "No prior history on file for this customer.")
     messages = [
         {"role": "system", "content": system_prompt},
@@ -88,7 +90,7 @@ def triage_ticket(store: TicketStore, ticket: Ticket, system_prompt: str = SYSTE
                 args = json.loads(tc.function.arguments or "{}")
             except json.JSONDecodeError:
                 args = {}
-            result = dispatch(store, name, args)
+            result = dispatch_fn(store, name, args)
             if verbose:
                 print(f"  [tool] {name}({args}) -> ok={result.get('ok')}")
             messages.append({
