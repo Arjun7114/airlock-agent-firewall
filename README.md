@@ -1,5 +1,8 @@
 # Airlock — a firewall for AI agents against indirect prompt injection
 
+[![CI](https://github.com/Arjun7114/airlock-agent-firewall/actions/workflows/ci.yml/badge.svg)](https://github.com/Arjun7114/airlock-agent-firewall/actions/workflows/ci.yml)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+
 **Airlock stops an AI agent from being hijacked by malicious instructions hidden in
 the untrusted data it reads — deterministically, without degrading legitimate work.**
 
