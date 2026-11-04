@@ -32,11 +32,12 @@ def test_close_blocked_for_non_spam():
     assert not allowed
 
 
-def test_close_allowed_for_spam():
+def test_close_blocked_even_for_spam():
     store = _store()
     store.tickets["T-SPAM"].category = Category.SPAM
-    allowed, _ = gate.evaluate("close_ticket", {"ticket_id": "T-SPAM"}, store)
-    assert allowed
+    allowed, reason = gate.evaluate("close_ticket", {"ticket_id": "T-SPAM"}, store)
+    assert not allowed
+    assert "approval" in reason.lower()
 
 
 def test_escalate_allowed():
