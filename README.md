@@ -94,6 +94,13 @@ deferred to human approval by design**.
 Reproduce: `python -m benchmark.compare` (before/after + audit trail),
 `python -m benchmark.utility`, `python -m benchmark.matrix`.
 
+**Robustness (diverse, unseen attacks):** a separate battery of 10 adversarial
+attacks across techniques not in the main corpus — spacing obfuscation, role-play,
+fake tool-call spoofing, markdown-comment hiding, decision corruption, cross-ticket
+sabotage, authority/urgency, nested quoted instructions — none tuned to the model.
+Undefended, **5/10** caused a consequential action; under Airlock, **0/10**.
+Reproduce: `python -m benchmark.robustness`.
+
 ## Running it
 
 ```bash
